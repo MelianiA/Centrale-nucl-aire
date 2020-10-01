@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Centrale_nucléaire
 {
     class Centrale_nucleaire
     {
-        Pompe_electrique pompes_Electrique = new Pompe_electrique();
-        List<Pompe_hydrauliques> pompes_hydrauliques = new List<Pompe_hydrauliques>() 
+        List<IPompe> pompes = new List<IPompe>() 
         {
+            new Pompe_electrique(),
             new Pompe_hydrauliques(), 
             new Pompe_hydrauliques() 
         };
 
         public void seRefroidir()
         {
-            pompes_Electrique.declencher();
-            foreach (var pompe in pompes_hydrauliques)
-            {
-                pompe.declencher();
-            }
+          pompes.ForEach(p => p.declencher());
         }
     }
-    class Pompe_electrique
+    interface IPompe
+    {
+        public void declencher();
+    }
+    class Pompe_electrique :IPompe
     {
         public bool active { get; private set; } = false;
         public void declencher()
@@ -30,7 +31,7 @@ namespace Centrale_nucléaire
             Console.WriteLine("Pompe électrique lancée");
         }
     }
-    class Pompe_hydrauliques
+    class Pompe_hydrauliques : IPompe
     {
         public bool active { get; private set; } = false;
         public void declencher()
