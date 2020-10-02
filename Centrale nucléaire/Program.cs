@@ -15,7 +15,11 @@ namespace Centrale_nucléaire
 
         public void seRefroidir()
         {
-          pompes.ForEach(p => p.declencher());
+            foreach (var item in pompes)
+            {
+                item.declencher();
+            }
+          
         }
     }
     interface IPompe
@@ -24,19 +28,15 @@ namespace Centrale_nucléaire
     }
     class Pompe_electrique :IPompe
     {
-        public bool active { get; private set; } = false;
         public void declencher()
         {
-            active = true;
             Console.WriteLine("Pompe électrique lancée");
         }
     }
     class Pompe_hydrauliques : IPompe
     {
-        public bool active { get; private set; } = false;
         public void declencher()
         {
-            active = true;
             Console.WriteLine("Pompe hydraulique lancée");
         }
     }
